@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>jiirist</title>
+<link rel="stylesheet" media="screen" href="/static/css/style.css" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Averia+Libre:700,400italic' rel='stylesheet' type='text/css'>
+<link href='/static/font/font-awesome.css' rel='stylesheet' type='text/css'>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/jiirist.js"></script>
+<script src='http://connect.facebook.net/en_US/all.js'></script>
+</head>
+
+<body>
+
+<div id="wrapper" data-listid="{{ list.id }}">
+	<div id="welcome">
+		<h1>Here's your list.</h1>
+		<p>It's already online and public. Just write something.</p>
+		<p>Share it with anyone. Just copy the url.</p>
+		<i class="icon-arrow-down"></i>
+		<a href="#" class="close">Close this nonsense.</a>
+	</div>
+	<div id="nav">
+		<input type="text" id="url" value="" onClick="this.select()"/>
+		<div class="button" id="help-button" value="Click for help">?</div>
+		{% if list.locked %} 
+		<div class="button locked active" id="lock" value="The list is locked"><i class="icon-lock"></i>locked</div>
+		{% else %}
+		<div class="button" id="lock" title="Click here to lock the list"><i class="icon-unlock"></i>unlocked</div>
+		{% endif %}
+		{%comment%}<div class="button" id="share"><i class="icon-globe"></i>share</div>{%endcomment%}
+		<div class="clear"></div>
+	</div>
+	
+	<div id="help">
+		<h1>What the heck is this?</h1>
+		<p>This is <strong>Jiirist</strong>, a web application for public shareable lists.</p>
+		<p>Every time you enter Jiirist, we create an public list for you that you can share with anyone. You can lock it down if you want to, but you won't be able to edit it later on.</p>
+		<h1>For what?</h1>
+		<p>Jiirist is convenient for creating grocery lists, simple to-dos or even poetry. Or, anything really.</p>
+		<p>Simply write a title and list the things you want to remember or share.</p>
+		<h1>Hey, I wanna be cool and share my list with friends!</h1>
+		<p>You can share your public list via email, Twitter or Facebook by clicking Share.</p>
+		<h1>Who's the idiot who made this?</h1>
+		<p>Jiirist was created by <a href="https://twitter.com/slermukka" target="_blank">@slermukka</a>, <a href="https://twitter.com/tommikaikkonen" target="_blank">@tommikaikkonen</a> and <a href="https://twitter.com/mikipernu" target="_blank">@mikipernu</a> from <a href="http://www.jiiri.com" target="_blank">Jiiri.com</a>. We hate writing on small paper notes as they always get lost, so we decided to code a small paper scrap for you to play around with.</p>
+		<p>We love feedback, and we want to make our app better. Tweet your feedback to <a href="https://twitter.com/tommikaikkonen" target="_blank">@tommikaikkonen</a>. Thanks a bunch!</p>
+		<a href="#" class="close">Close this nonsense.</a>
+	</div>
+	
+	<div id="pad">
+		<div id="stripes">
+		</div>
+		
+		{% if list.title %}
+		<input type="text" id="list-title" placeholder="List title" value="{{list.title}}" {% if list.locked %}DISABLED{% endif %}/>
+		{% else %}
+		<input type="text" id="list-title" placeholder="List title"/>
+		{% endif %}
+		
+		<div id="list-input" {% if not list.locked %}contenteditable="true" {% endif %}>
+			{% if list.content %}
+				{{ list.content|safe }}
+			{% else %}
+				<div>Write your own list here!</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% csrf_token %}
+	<div class="prompt" style="display:none;">
+		<div id="lock-prompt">
+			<h1>Lock the list</h1>
+			<p>Are you sure you want to lock the list?</p>
+			<p>After the list is locked it can never be edited again!</p>
+			<div class="button confirm">Lock!</div>
+			<div class="button cancel">Cancel</div>
+			<div class="cross"><i
+		</div>
+	</div>
+</body>
+</html>
